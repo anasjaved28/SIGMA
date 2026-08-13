@@ -1,0 +1,6 @@
+https://developer.mozilla.org/en-US/                         (mdn)
+https://codingfantasy.com/games/flexboxadventure             (FLEXBOX PRACTICE)
+emmet.io          (Keyboard Shortcuts)
+cssfontstack.com  (font family)
+mycolor.space     (color pallet)
+cooler            (color pallet)
