@@ -1,21 +1,37 @@
-let a = 1222;
-let b = 142;
-let c = 128;
+console.log("TO DO LIST");
 
-let largest = a > b && a > c ? a : b > c ? b : c;
+let toDo = [];
+let choice = null;
+let br = false;
 
-console.log("largest number is ", largest);
+while (true) {
+  choice = Number(prompt("1: List, 2: Add, 3: Delete, 4: Quit"));
 
-let x = 1221223;
-let y = 341423;
+  switch (choice) {
+    case 1:
+      for (let i = 0; i < toDo.length; i++) {
+        console.log(toDo[i]);
+      }
+      break;
+    case 2:
+      let x = prompt("What you want to add:");
+      toDo.push(x);
+      break;
 
-if (x % 100 == y % 100) {
-  console.log("equal");
-} else {
-  console.log("Unequal");
+    case 3:
+      let popped = toDo.pop();
+      alert(`Popped :${popped}`);
+      break;
+
+    case 4:
+      br = true;
+      break;
+
+    default:
+      alert("invalid choice!");
+  }
+
+  if (br) {
+    break;
+  }
 }
-
-let str = "  Hello World   ";
-
-str = str.trim().toUpperCase();
-console.log(str);
