@@ -43,3 +43,16 @@ let countVowel = function (vowString) {
   console.log(count);
 };
 countVowel(vowString);
+
+// Check if all members of array are multiples of 10 or not using array methods
+
+let arr3 = [110, 20, 30, 40, 30, 50, 70];
+
+let isTrue = arr3.every((el) => {
+  return el % 10 == 0;
+});
+
+console.log(isTrue);
+
+// Find Min number in array
+let arr4 = [110, 20, 30, 40, 30, 50, 7];
