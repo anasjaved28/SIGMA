@@ -299,8 +299,6 @@ a {
 
 .progress-bar {
   width: 65%;
-  /* appearance: none;
-  background-color: transparent; */
   accent-color: green;
   cursor: pointer;
 }

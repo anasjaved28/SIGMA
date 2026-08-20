@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+div {
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  background-color: teal;
+  box-shadow: 20px 29px 40px blue;
+  padding: 20px;
+  margin: 20px;
+  box-sizing: border-box;
+}
