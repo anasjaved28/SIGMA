@@ -54,5 +54,9 @@ let isTrue = arr3.every((el) => {
 
 console.log(isTrue);
 
-// Find Min number in array
-let arr4 = [110, 20, 30, 40, 30, 50, 7];
+// Write a function called doubleAndReturnArgs which accepts an array and a
+// variable number of arguments. The function should return a new array with the original
+// array values and all of the additional arguments doubled.
+function doubleAndReturnArgs(arr, ...args) {
+  return [...arr, ...args.map((val) => val * 2)];
+}
