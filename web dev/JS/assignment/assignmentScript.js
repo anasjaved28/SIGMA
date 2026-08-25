@@ -45,18 +45,15 @@ let countVowel = function (vowString) {
 countVowel(vowString);
 
 // Check if all members of array are multiples of 10 or not using array methods
-
 let arr3 = [110, 20, 30, 40, 30, 50, 70];
-
 let isTrue = arr3.every((el) => {
   return el % 10 == 0;
 });
 
 console.log(isTrue);
 
-// Write a function called doubleAndReturnArgs which accepts an array and a
-// variable number of arguments. The function should return a new array with the original
-// array values and all of the additional arguments doubled.
+// Write a function called doubleAndReturnArgs which accepts an array and avariable number of arguments.
+// The function should return a new array with the original array values and all of the additional arguments doubled.
 function doubleAndReturnArgs(arr, ...args) {
   return [...arr, ...args.map((val) => val * 2)];
 }

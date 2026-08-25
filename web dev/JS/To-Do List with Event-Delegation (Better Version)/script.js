@@ -14,11 +14,16 @@ btn.addEventListener("click", function () {
   inp.value = "";
 });
 
-let dltBtns = document.querySelectorAll(".delete");
-
-for (i of dltBtns) {
-  i.addEventListener("click", function () {
-    let par = this.parentElement; //button ka parent element => li
+ul.addEventListener("click", function (event) {
+  if (event.target.nodeName == "BUTTON") {
+    let par = event.target.parentElement;
     par.remove();
-  });
-}
+  }
+});
+// let dltBtns = document.querySelectorAll(".delete");
+// for (i of dltBtns) {
+//   i.addEventListener("click", function () {
+//     let par = this.parentElement; //button ka parent element => li
+//     par.remove();
+//   });
+// }
