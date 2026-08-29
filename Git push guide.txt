@@ -1,7 +1,0 @@
-cd Sigma
-
-git add .
-
-git commit -m "Describe what you changed or added"
-
-git push
