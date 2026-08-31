@@ -1,0 +1,12 @@
+{
+  "name": "ejsdir",
+  "version": "1.0.0",
+  "description": "JavaScript Template to generate HTML markup",
+  "license": "ISC",
+  "author": "Anas Javed",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
