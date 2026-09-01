@@ -16,13 +16,14 @@ app.get("/hello", (req, res) => {
 
 app.get("/ig/:username", (req, res) => {
   let { username } = req.params;
-  console.log(username);
-  res.render("instagram.ejs", { user: username });
+  const instaData = require("./data.json");
+  const data = instaData[username];
+  res.render("instagram.ejs", { data });
 });
 
 app.get("/rollDice", (req, res) => {
   let diceVal = Math.floor(Math.random() * 6) + 1;
-  res.render("rollDice.ejs", { num: diceVal }); //Passing Data to EJS
+  res.render("rollDice.ejs", { diceVal }); //Passing Data to EJS
 });
 
 app.listen(port, () => {
