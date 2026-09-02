@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-let port = 8080;
+const port = 8080;
 const path = require("path");
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -8,12 +8,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view enigne", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
-app.get("/", (req, res) => {
-  res.render("home.ejs");
+app.listen(port, () => {
+  console.log(`Server Started on Port:${port}`);
 });
 
 app.get("/hello", (req, res) => {
   res.send("Hello Route");
+});
+
+app.get("/", (req, res) => {
+  res.render("home.ejs");
 });
 
 app.get("/ig/:username", (req, res) => {
@@ -30,8 +34,4 @@ app.get("/ig/:username", (req, res) => {
 app.get("/rollDice", (req, res) => {
   let diceVal = Math.floor(Math.random() * 6) + 1;
   res.render("rollDice.ejs", { diceVal }); //Passing Data to EJS
-});
-
-app.listen(port, () => {
-  console.log("Server Started");
 });
