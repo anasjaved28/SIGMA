@@ -36,6 +36,8 @@ app.get("/posts", (req, res) => {
   res.render("index.ejs", { posts });
 });
 
+//this route will open a form page where we enter data
+// form action => (POST /posts)
 app.get("/posts/new", (req, res) => {
   res.render("new.ejs");
 });
@@ -51,6 +53,7 @@ app.post("/posts", (req, res) => {
   res.redirect("/posts");
 });
 
+// View a single post based on its ID
 app.get("/posts/:id", (req, res) => {
   let { id } = req.params;
   console.log(id);
@@ -58,6 +61,15 @@ app.get("/posts/:id", (req, res) => {
   res.render("show.ejs", { post });
 });
 
+// this route will open a form where we edit the content of a post
+// form action (PATCH  /posts/:id)
+app.get("/posts/:id/edit", (req, res) => {
+  let { id } = req.params;
+  let post = posts.find((p) => id === p.id);
+  res.render("edit.ejs", { post });
+});
+
+// edit.ejs form will call this API
 app.patch("/posts/:id", (req, res) => {
   let { id } = req.params;
   let newContent = req.body.content;
@@ -65,12 +77,6 @@ app.patch("/posts/:id", (req, res) => {
   post.content = newContent;
   console.log(post);
   res.redirect("/posts");
-});
-
-app.get("/posts/:id/edit", (req, res) => {
-  let { id } = req.params;
-  let post = posts.find((p) => id === p.id);
-  res.render("edit.ejs", { post });
 });
 
 app.delete("/posts/:id", (req, res) => {
