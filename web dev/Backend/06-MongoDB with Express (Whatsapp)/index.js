@@ -2,9 +2,10 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-
 const port = 3000;
+
 const Chat = require("./models/chat.js"); //Chat model
+const ExpressError = require("./ExpressError");
 const methodOverride = require("method-override");
 
 main()
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
   res.send("Working Root");
 });
 
+// INDEX ROUTE
 app.get("/chats", async (req, res) => {
   let chats = await Chat.find({});
   res.render("index.ejs", { chats });
@@ -51,38 +53,59 @@ app.post("/chats", async (req, res) => {
 });
 
 // SHOW ROUTE
-app.get("/chats:id", async (req, res, next) => {
-  let { id } = req.params;
-  let chat = await Chat.findById(id);
-  res.render("edit.ejs", { chat });  //show.ejs make
+app.get("/chats/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    let chat = await Chat.findById(id);
+    if (!chat) {
+      return next(new ExpressError(404, "Chat not Found")); //Catches only wrong (ID) but ID length should be same
+    }
+
+    res.render("edit.ejs", { chat });
+  } catch (err) {
+    next(err); // Catches Mongoose CastErrors (invalid IDs) and DB failures
+  }
 });
 
 // EDIT ROUTE
 app.get("/chats/:id/edit", async (req, res) => {
   let { id } = req.params;
-  let editChat = await Chat.findById(id);
-  res.render("edit.ejs", { editChat });
+  let chat = await Chat.findById(id);
+  res.render("edit.ejs", { chat });
 });
 
-app.put("/chats/:id", async (req, res) => {
-  let { id } = req.params;
-  let { msg: newMsg } = req.body;
-  await Chat.findByIdAndUpdate(
-    id,
-    { msg: newMsg },
-    { runValidators: true },
-    { new: true },
-  );
-  res.redirect("/chats");
+app.put("/chats/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    let { msg: newMsg } = req.body;
+    await Chat.findByIdAndUpdate(
+      id,
+      { msg: newMsg },
+      { runValidators: true, new: true },
+    );
+    res.redirect("/chats");
+  } catch (err) {
+    next(err);
+  }
 });
 
 // DELETE ROUTE
-app.delete("/chats/:id", async (req, res) => {
-  let { id } = req.params;
-  await Chat.findByIdAndDelete(id);
-  res.redirect("/chats");
+app.delete("/chats/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    await Chat.findByIdAndDelete(id);
+    res.redirect("/chats");
+  } catch (err) {
+    next(err); // Pass error to error-handling middleware
+  }
+});
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+  let { status = 500, message = "Some Error Occurred" } = err;
+  res.status(status).send(message);
 });
 
 app.listen(port, () => {
-  console.log("Listening to port");
+  console.log(`Listening to port ${port}`);
 });
