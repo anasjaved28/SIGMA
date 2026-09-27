@@ -25,6 +25,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+// asyncWarp function removes the need to write try and catch block everytime
+function asyncWrap(fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch((err) => next(err));
+  };
+}
+
 app.get("/", (req, res) => {
   res.send("Working Root");
 });
@@ -53,8 +60,9 @@ app.post("/chats", async (req, res) => {
 });
 
 // SHOW ROUTE
-app.get("/chats/:id", async (req, res, next) => {
-  try {
+app.get(
+  "/chats/:id",
+  asyncWrap(async (req, res, next) => {
     let { id } = req.params;
     let chat = await Chat.findById(id);
     if (!chat) {
@@ -62,16 +70,18 @@ app.get("/chats/:id", async (req, res, next) => {
     }
 
     res.render("edit.ejs", { chat });
-  } catch (err) {
-    next(err); // Catches Mongoose CastErrors (invalid IDs) and DB failures
-  }
-});
+  }),
+);
 
 // EDIT ROUTE
 app.get("/chats/:id/edit", async (req, res) => {
-  let { id } = req.params;
-  let chat = await Chat.findById(id);
-  res.render("edit.ejs", { chat });
+  try {
+    let { id } = req.params;
+    let chat = await Chat.findById(id);
+    res.render("edit.ejs", { chat });
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.put("/chats/:id", async (req, res, next) => {
@@ -90,15 +100,14 @@ app.put("/chats/:id", async (req, res, next) => {
 });
 
 // DELETE ROUTE
-app.delete("/chats/:id", async (req, res, next) => {
-  try {
+app.delete(
+  "/chats/:id",
+  asyncWrap(async (req, res, next) => {
     let { id } = req.params;
     await Chat.findByIdAndDelete(id);
     res.redirect("/chats");
-  } catch (err) {
-    next(err); // Pass error to error-handling middleware
-  }
-});
+  }),
+);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
